@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Haiku Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; }
+        h1 { text-align: center; }
+        button { display: block; margin: 20px auto; padding: 10px 20px; font-size: 16px; }
+        #haiku { white-space: pre-wrap; background: #f4f4f4; padding: 20px; border-radius: 4px; min-height: 80px; }
+    </style>
+</head>
+<body>
+    <h1>AI Haiku Generator</h1>
+    <button id="fetch-btn">Get Haiku</button>
+    <div id="haiku">Your haiku will appear here.</div>
+
+    <script>
+        document.getElementById('fetch-btn').addEventListener('click', async () => {
+            const container = document.getElementById('haiku');
+            container.textContent = 'Loading...';
+            try {
+                const response = await fetch('/api/ai/haiku/');
+                const data = await response.json();
+                if (response.ok && data.haiku) {
+                    container.textContent = data.haiku;
+                } else {
+                    container.textContent = data.error || 'An error occurred';
+                }
+            } catch (err) {
+                container.textContent = 'Request failed: ' + err;
+            }
+        });
+    </script>
+</body>
+</html> 
